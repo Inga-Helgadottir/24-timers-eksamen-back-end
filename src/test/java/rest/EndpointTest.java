@@ -247,8 +247,7 @@ class EndpointTest {
                 .body("message", equalTo("Not authenticated - do login"));
     }
 
-
-
+    //--------------------------------------------------------------------------
     @Test
     void seeAllMatchesEndpoint() {
         login("user_admin", "test");
