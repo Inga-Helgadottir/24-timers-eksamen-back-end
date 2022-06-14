@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Match", schema="Eksamen")
+@Table(name = "Match", schema="24Eksamen")
 public class Match implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

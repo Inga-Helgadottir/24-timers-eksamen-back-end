@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Player", schema="Eksamen")
+@Table(name = "Player", schema="24Eksamen")
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
