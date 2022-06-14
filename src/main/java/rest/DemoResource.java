@@ -16,6 +16,7 @@ import javax.ws.rs.core.*;
 
 import facades.MatchFacade;
 import facades.PlayerFacade;
+import facades.Populator;
 import utils.EMF_Creator;
 
 /**
@@ -103,5 +104,13 @@ public class DemoResource {
                 .entity(GSON.toJson(mf.updateMatches(c)))
                 .build();
 
+    }
+
+    @GET
+    @Path("populateMyDBWithUsersAndACocktail")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void populate() {
+        String[] args = new String[0];
+        Populator.main(args);
     }
 }
