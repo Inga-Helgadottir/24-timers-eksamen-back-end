@@ -8,11 +8,10 @@ package facades;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import entities.Match;
-import entities.Player;
-import entities.Role;
-import entities.User;
+import entities.*;
 import utils.EMF_Creator;
+
+import java.util.Locale;
 
 /**
  *
@@ -56,8 +55,13 @@ public class Populator {
         Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");
         Match m = new Match("team1", "Annie Clark", "Chess", "true");
         Match m2 = new Match("team2", "Bonnie Mitchel", "Basketball", "true");
+        Location l1 = new Location("some address", "some city", "condition");
+        Location l2 = new Location("some other address", "some other city", "some other condition");
 
         em.getTransaction().begin();
+
+        m.setLocation(l1);
+        m2.setLocation(l2);
 
         p1.addToMatches(m);
         p2.addToMatches(m);
@@ -70,6 +74,8 @@ public class Populator {
         em.persist(p3);
         em.persist(m);
         em.persist(m2);
+        em.persist(l1);
+        em.persist(l2);
 
         em.getTransaction().commit();
     }

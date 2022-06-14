@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,9 @@ public class Match {
     private String inDoors;
     @ManyToMany(mappedBy = "matches", cascade = {CascadeType.PERSIST})
     private List<Player> players = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
+    private Location location;
 
     public Match() {
     }
@@ -91,6 +93,15 @@ public class Match {
 
     public void addToPlayers(Player player) {
         this.players.add(player);
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+        location.addToMatches(this);
     }
 
     @Override

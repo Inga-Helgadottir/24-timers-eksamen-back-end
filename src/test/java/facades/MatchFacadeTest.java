@@ -1,10 +1,7 @@
 package facades;
 
 import dtos.MatchDTO;
-import entities.Match;
-import entities.Player;
-import entities.Role;
-import entities.User;
+import entities.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +39,7 @@ class MatchFacadeTest {
 
             em.createNamedQuery("Player.deleteAllRows").executeUpdate();
             em.createNamedQuery("Matches.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Locations.deleteAllRows").executeUpdate();
 
             em.getTransaction().commit();
 
@@ -62,8 +60,13 @@ class MatchFacadeTest {
             Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");
             Match m = new Match("team hihi", "Annie Clark", "Chess", "true");
             Match m2 = new Match("team hoho", "Bonnie Mitchel", "Basketball", "true");
+            Location l1 = new Location("some address", "some city", "condition");
+            Location l2 = new Location("some other address", "some other city", "some other condition");
 
             em.getTransaction().begin();
+
+            m.setLocation(l1);
+            m2.setLocation(l2);
 
             p1.addToMatches(m);
             p2.addToMatches(m);
@@ -76,6 +79,8 @@ class MatchFacadeTest {
             em.persist(p3);
             em.persist(m);
             em.persist(m2);
+            em.persist(l1);
+            em.persist(l2);
 
             em.persist(userRole);
             em.persist(adminRole);
