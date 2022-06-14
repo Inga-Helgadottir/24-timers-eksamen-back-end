@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Match", schema="24Eksamen")
-public class Match implements Serializable {
+@NamedQuery(name = "Matches.deleteAllRows", query = "DELETE from Match m")
+@Table(name = "Matches")
+public class Match {
     private static final long serialVersionUID = 1L;
     @Id
     @NotNull
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
@@ -26,14 +27,14 @@ public class Match implements Serializable {
     private String type;
     @NotNull
     @Column(name = "in_doors")
-    private boolean inDoors;
+    private String inDoors;
     @ManyToMany(mappedBy = "matches", cascade = {CascadeType.PERSIST})
     private List<Player> players = new ArrayList<>();
 
     public Match() {
     }
 
-    public Match(String opponentTeam, String judge, String type, boolean inDoors) {
+    public Match(String opponentTeam, String judge, String type, String inDoors) {
         this.opponentTeam = opponentTeam;
         this.judge = judge;
         this.type = type;
@@ -72,11 +73,11 @@ public class Match implements Serializable {
         this.type = type;
     }
 
-    public boolean getInDoors() {
+    public String getInDoors() {
         return inDoors;
     }
 
-    public void setInDoors(boolean inDoors) {
+    public void setInDoors(String inDoors) {
         this.inDoors = inDoors;
     }
 

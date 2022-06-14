@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Player", schema="24Eksamen")
-public class Player implements Serializable {
+@NamedQuery(name = "Player.deleteAllRows", query = "DELETE from Player p")
+@Table(name = "Player")
+public class Player {
     private static final long serialVersionUID = 1L;
     @Id
     @NotNull
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull

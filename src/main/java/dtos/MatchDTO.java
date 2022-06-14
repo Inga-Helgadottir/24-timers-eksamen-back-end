@@ -10,10 +10,10 @@ public class MatchDTO {
     private String opponentTeam;
     private String judge;
     private String type;
-    private boolean inDoors;
+    private String inDoors;
     private List<PlayerDTO> playerDTOS = new ArrayList<>();
 
-    public MatchDTO(String opponentTeam, String judge, String type, boolean inDoors) {
+    public MatchDTO(String opponentTeam, String judge, String type, String inDoors) {
         this.opponentTeam = opponentTeam;
         this.judge = judge;
         this.type = type;
@@ -69,11 +69,11 @@ public class MatchDTO {
         this.type = type;
     }
 
-    public boolean isInDoors() {
+    public String isInDoors() {
         return inDoors;
     }
 
-    public void setInDoors(boolean inDoors) {
+    public void setInDoors(String inDoors) {
         this.inDoors = inDoors;
     }
 

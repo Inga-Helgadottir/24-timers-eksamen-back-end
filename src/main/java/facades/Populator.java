@@ -54,8 +54,8 @@ public class Populator {
         Player p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");
         Player p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");
         Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");
-        Match m = new Match("team hihi", "Annie Clark", "Chess", true);
-        Match m2 = new Match("team hoho", "Bonnie Mitchel", "Basketball", true);
+        Match m = new Match("team1", "Annie Clark", "Chess", "true");
+        Match m2 = new Match("team2", "Bonnie Mitchel", "Basketball", "true");
 
         em.getTransaction().begin();
 

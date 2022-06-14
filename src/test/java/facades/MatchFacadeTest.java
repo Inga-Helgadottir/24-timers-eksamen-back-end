@@ -40,8 +40,9 @@ class MatchFacadeTest {
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
 
-            em.createQuery("DELETE FROM Player").executeUpdate();
-            em.createQuery("DELETE FROM Match").executeUpdate();
+            em.createNamedQuery("Player.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Matches.deleteAllRows").executeUpdate();
+
             em.getTransaction().commit();
 
             Role userRole = new Role("user");
@@ -59,8 +60,8 @@ class MatchFacadeTest {
             Player p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");
             Player p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");
             Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");
-            Match m = new Match("team hihi", "Annie Clark", "Chess", true);
-            Match m2 = new Match("team hoho", "Bonnie Mitchel", "Basketball", true);
+            Match m = new Match("team hihi", "Annie Clark", "Chess", "true");
+            Match m2 = new Match("team hoho", "Bonnie Mitchel", "Basketball", "true");
 
             em.getTransaction().begin();
 
