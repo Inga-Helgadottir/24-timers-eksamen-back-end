@@ -21,6 +21,7 @@
         <!-- TODO: Add your own database name -->
         <!-- IMPORTANT-1: The database should exist on your droplet -->
         <db.name>24Eksamen</db.name>
+        <db.name>24Eksamen_test</db.name>
     </properties>
     
     <dependencies>

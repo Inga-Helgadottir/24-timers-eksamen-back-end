@@ -3,6 +3,8 @@ package facades;
 import dtos.MatchDTO;
 import entities.Match;
 import entities.Player;
+import entities.Role;
+import entities.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,9 +37,24 @@ class MatchFacadeTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNativeQuery("DROP TABLE IF EXISTS Player").executeUpdate();
-            em.createNativeQuery("DROP TABLE IF EXISTS `Match`").executeUpdate();
+            em.createQuery("delete from User").executeUpdate();
+            em.createQuery("delete from Role").executeUpdate();
+
+            em.createQuery("DELETE FROM Player").executeUpdate();
+            em.createQuery("DELETE FROM Match").executeUpdate();
             em.getTransaction().commit();
+
+            Role userRole = new Role("user");
+            Role adminRole = new Role("admin");
+            User user = new User("user", "test");
+            user.addRole(userRole);
+            User admin = new User("admin", "test");
+            admin.addRole(adminRole);
+            User both = new User("user_admin", "test");
+            both.addRole(userRole);
+            both.addRole(adminRole);
+            User tester = new User("hihihi", "test");
+            tester.addRole(userRole);
 
             Player p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");
             Player p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");
@@ -58,8 +75,15 @@ class MatchFacadeTest {
             em.persist(p3);
             em.persist(m);
             em.persist(m2);
-            em.getTransaction().commit();
 
+            em.persist(userRole);
+            em.persist(adminRole);
+            em.persist(tester);
+            em.persist(user);
+            em.persist(admin);
+            em.persist(both);
+
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
@@ -69,6 +93,9 @@ class MatchFacadeTest {
     void seeAllMatches() {
         System.out.println("seeAllMatches test");
         List<MatchDTO> matches = facade.seeAllMatches();
+        for (MatchDTO m: matches) {
+            System.out.println(m);
+        }
         int actual = matches.size();
         int expected = 2;
         assertEquals(expected, actual);
