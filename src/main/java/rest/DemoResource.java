@@ -1,20 +1,21 @@
 package rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import dtos.MatchDTO;
+import com.google.gson.*;
+import dtos.PlayerDTO;
+import entities.Location;
+import entities.Match;
 import entities.User;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import javax.ws.rs.Produces;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 
 import facades.MatchFacade;
+import facades.PlayerFacade;
 import utils.EMF_Creator;
 
 /**
@@ -26,6 +27,7 @@ public class DemoResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final MatchFacade mf = MatchFacade.getMatchFacade(EMF);
+    private static final PlayerFacade pf = PlayerFacade.getPlayerFacade(EMF);
     @Context
     private UriInfo context;
 
@@ -77,5 +79,29 @@ public class DemoResource {
     @Path("seeAllMatches")
     public Response seeAllMatchesEndpoint(){
         return Response.ok().entity(GSON.toJson(mf.seeAllMatches())).build();
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("deletePlayer/{id}")
+    @RolesAllowed("admin")
+    public Response deletePlayer(@PathParam("id") int id)throws EntityNotFoundException {
+        PlayerDTO deleted = pf.deletePlayer(id);
+        return Response.ok().entity(GSON.toJson(deleted)).build();
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("changeMatch/")
+    @RolesAllowed("admin")
+    public Response changeMatch(String jsonContext) {
+        System.out.println(jsonContext);
+        Match c = GSON.fromJson(jsonContext, Match.class);
+        return Response.ok()
+                .entity(GSON.toJson(mf.updateMatches(c)))
+                .build();
+
     }
 }

@@ -46,7 +46,7 @@ public class LoginEndpoint {
             username = json.get("username").getAsString();
             password = json.get("password").getAsString();
         } catch (Exception e) {
-           throw new API_Exception("Malformed JSON Suplied",400,e);
+            throw new API_Exception("Malformed JSON Suplied",400,e);
         }
 
         try {
@@ -54,6 +54,11 @@ public class LoginEndpoint {
             String token = createToken(username, user.getRolesAsStrings());
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
+            List<String> roles = user.getRolesAsStrings();
+            for (int i = 0; i < roles.size(); i++) {
+                String roleName = "role" + i;
+                responseJson.addProperty(roleName, roles.get(i));
+            }
             responseJson.addProperty("token", token);
             return Response.ok(new Gson().toJson(responseJson)).build();
 

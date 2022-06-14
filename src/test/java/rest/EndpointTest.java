@@ -2,7 +2,9 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.MatchDTO;
 import entities.*;
+import facades.MatchFacade;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -17,6 +19,7 @@ import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
@@ -33,6 +36,7 @@ class EndpointTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static Player p1, p2, p3;
 
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
@@ -85,9 +89,9 @@ class EndpointTest {
             User tester = new User("hihihi", "test");
             tester.addRole(userRole);
 
-            Player p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");//, "password1");
-            Player p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");//, "password2");
-            Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");//, "password3");
+            p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");//, "password1");
+            p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");//, "password2");
+            p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");//, "password3");
             Match m = new Match("team hihi", "Annie Clark", "Chess", "true");
             Match m2 = new Match("team hoho", "Bonnie Mitchel", "Basketball", "true");
             Location l1 = new Location("some address", "some city", "condition");
@@ -269,5 +273,39 @@ class EndpointTest {
                 .when()
                 .get("info/seeAllMatches").then()
                 .statusCode(200);
+    }
+
+    @Test
+    void changeMatchEndpoint() {
+        System.out.println("updateMatchesEndpoint test");
+        login("admin", "test");
+        String json = String.format("{id: 1, opponentTeam: team lala, judge: Annie Clark, type: Chess, inDoors: true playerDTOS: [id: 1, name: Missy Parker, phone: 78945612, email: mp@email.com, status: status},{ id: 2, name: Molly Hansen, phone: 45612389, email: mh@email.com, status: status},{ id: 3, name: Karen Miller, phone: 12345678, email: km@email.com, status: status}]}");
+//        String json = String.format("{id: \"1\", opponentTeam: \"team lala\", judge: \"Annie Clark\", type: \"Chess\", inDoors: \"true\" playerDTOS: [id: \"1\", name: \"Missy Parker\", phone: \"78945612\", email: \"mp@email.com\", status\": \"status\"},{ id: \"2\", name: \"Molly Hansen\", phone: \"45612389\", email: \"mh@email.com\", status: \"status\"},{ id: \"3\", name: \"Karen Miller\", phone: \"12345678\", email: \"km@email.com\", status: \"status\"}]}");
+
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .headers("x-access-token", securityToken)
+                .and()
+                .body(json)
+                .when()
+                .post("info/changeMatch")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    void deletePlayerEndpoint(){
+        System.out.println("delete player endpoint test");
+        login("admin", "test");
+        given()
+                .contentType(ContentType.JSON)
+                .headers("x-access-token", securityToken)
+                .pathParam("id", p1.getId())
+                .delete("/deletePlayer/{id}")
+                .then()
+                .statusCode(200)
+                .body("id",equalTo(p1.getId()));
+
     }
 }

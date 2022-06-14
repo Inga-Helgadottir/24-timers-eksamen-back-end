@@ -1,6 +1,5 @@
 package facades;
 
-import dtos.MatchDTO;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,24 +8,22 @@ import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NamedQuery;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MatchFacadeTest {
+class PlayerFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static MatchFacade facade;
+    private static PlayerFacade facade;
+    private int playerSize = 3;
 
-    public MatchFacadeTest() {
+    public PlayerFacadeTest() {
     }
 
     @BeforeAll
     static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = MatchFacade.getMatchFacade(emf);
+        facade = PlayerFacade.getPlayerFacade(emf);
     }
 
     @BeforeEach
@@ -105,35 +102,11 @@ class MatchFacadeTest {
     }
 
     @Test
-    void seeAllMatches() {
-        System.out.println("seeAllMatches test");
-        List<MatchDTO> matches = facade.seeAllMatches();
-        for (MatchDTO m: matches) {
-            System.out.println(m);
-        }
-        int actual = matches.size();
+    void deletePlayer() {
+        System.out.println("delete Player test");
+        facade.deletePlayer(1);
+        int actual = playerSize - 1;
         int expected = 2;
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void updateMatches() {
-        System.out.println("updateMatches test");
-        EntityManager em = emf.createEntityManager();
-        Player p = em.find(Player.class, 1);
-        Player p2 = em.find(Player.class, 2);
-        Location l = em.find(Location.class, 1);
-        Match m = new Match("team lala", "Bonnie Mitchel", "Soccer", "false");
-
-        m.setId(1);
-        m.setLocation(l);
-        m.addToPlayers(p);
-        m.addToPlayers(p2);
-        System.out.println(m);
-        MatchDTO match = facade.updateMatches(m);
-        String actual = match.getOpponentTeam();
-        String expected = "team lala";
-        assertEquals(expected, actual);
-
+        assertEquals(actual, expected);
     }
 }

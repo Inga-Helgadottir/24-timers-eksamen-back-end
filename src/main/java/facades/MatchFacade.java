@@ -35,4 +35,22 @@ public class MatchFacade {
             em.close();
         }
     }
+
+
+    public MatchDTO updateMatches(Match match){//, int id){
+        EntityManager em = emf.createEntityManager();
+        try {
+            Match m = em.find(Match.class, match.getId());//, id
+            m.setOpponentTeam(match.getOpponentTeam());
+            m.setInDoors(match.getInDoors());
+            m.setType(match.getType());
+            m.setJudge(match.getJudge());
+            m.setLocation(match.getLocation());
+            m.setPlayers(match.getPlayers());
+            em.persist(m);
+            return new MatchDTO(m);
+        }finally {
+            em.close();
+        }
+    }
 }
