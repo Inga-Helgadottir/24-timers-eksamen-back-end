@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "Player.deleteAllRows", query = "DELETE from Player p")
 @Table(name = "Player", schema="Eksamen")
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "Match.deleteAllRows", query = "DELETE from Match m")
 @Table(name = "Match", schema="Eksamen")
 public class Match implements Serializable {
     private static final long serialVersionUID = 1L;

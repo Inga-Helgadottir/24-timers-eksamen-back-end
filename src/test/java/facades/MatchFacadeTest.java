@@ -10,6 +10,7 @@ import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NamedQuery;
 
 import java.util.List;
 
@@ -33,6 +34,11 @@ class MatchFacadeTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
+            em.getTransaction().begin();
+            em.createNativeQuery("DROP TABLE IF EXISTS Player").executeUpdate();
+            em.createNativeQuery("DROP TABLE IF EXISTS `Match`").executeUpdate();
+            em.getTransaction().commit();
+
             Player p1 = new Player("Karen Miller", 12345678, "km@email.com", "status");
             Player p2 = new Player("Molly Hansen", 45612389, "mh@email.com", "status");
             Player p3 = new Player("Missy Parker", 78945612, "mp@email.com", "status");
