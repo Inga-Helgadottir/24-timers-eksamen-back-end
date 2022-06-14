@@ -106,6 +106,7 @@ public class DemoResource {
 
     }
 
+    //do not test this endpoint, it is made to populate my droplet databases
     @GET
     @Path("populateMyDBWithUsersAndACocktail")
     @Produces(MediaType.APPLICATION_JSON)
