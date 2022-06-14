@@ -94,7 +94,7 @@ public class DemoResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("changeMatch/")
+    @Path("changeMatch")
     @RolesAllowed("admin")
     public Response changeMatch(String jsonContext) {
         System.out.println(jsonContext);

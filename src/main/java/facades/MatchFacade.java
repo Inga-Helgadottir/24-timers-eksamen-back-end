@@ -37,10 +37,10 @@ public class MatchFacade {
     }
 
 
-    public MatchDTO updateMatches(Match match){//, int id){
+    public MatchDTO updateMatches(Match match){
         EntityManager em = emf.createEntityManager();
         try {
-            Match m = em.find(Match.class, match.getId());//, id
+            Match m = em.find(Match.class, match.getId());
             m.setOpponentTeam(match.getOpponentTeam());
             m.setInDoors(match.getInDoors());
             m.setType(match.getType());
