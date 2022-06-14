@@ -1,5 +1,7 @@
 package entities;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ public class Player {
     @NotNull
     @Column(name = "name")
     private String name;
+//    @NotNull
+//    @Column(name = "password")
+//    private String password;
     @NotNull
     @Column(name = "phone")
     private long phone;
@@ -33,15 +38,39 @@ public class Player {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user", referencedColumnName = "user_name")
+    private User user;
+
     public Player() {
     }
 
-    public Player(String name, long phone, String email, String status) {
+    public Player(String name, long phone, String email, String status){//, String password) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.status = status;
+//        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+//    public boolean verifyPassword(String pw){
+//        return BCrypt.checkpw(pw, password);
+//    }
+
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public int getId() {
         return id;
@@ -101,7 +130,8 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
+//                ", password='" + password + '\'' +
+                ", phone=" + phone +
                 ", email='" + email + '\'' +
                 ", status='" + status + '\'' +
                 ", matches=" + matches +

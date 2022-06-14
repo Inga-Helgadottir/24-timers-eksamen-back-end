@@ -11,12 +11,14 @@ public class PlayerDTO {
     private long phone;
     private String email;
     private String status;
+    private String password;
 
-    public PlayerDTO(String name, long phone, String email, String status) {
+    public PlayerDTO(String name, long phone, String email, String status, String password) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.status = status;
+        this.password = password;
     }
 
     public static List<PlayerDTO> getDtos(List<Player> players){
@@ -32,6 +34,7 @@ public class PlayerDTO {
             this.phone = p.getPhone();
             this.email = p.getEmail();
             this.status = p.getStatus();
+//            this.password = p.getPassword();
         }
     }
 
@@ -75,6 +78,13 @@ public class PlayerDTO {
         this.status = status;
     }
 
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,6 +107,7 @@ public class PlayerDTO {
                 ", phone=" + phone +
                 ", email='" + email + '\'' +
                 ", status='" + status + '\'' +
+//                ", password='" + password + '\'' +
                 '}';
     }
 }
