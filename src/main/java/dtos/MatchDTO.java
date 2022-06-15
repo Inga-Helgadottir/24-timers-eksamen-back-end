@@ -1,5 +1,6 @@
 package dtos;
 
+import entities.Location;
 import entities.Match;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class MatchDTO {
     private String type;
     private String inDoors;
     private List<PlayerDTO> playerDTOS = new ArrayList<>();
+    private Location location;
 
     public MatchDTO(String opponentTeam, String judge, String type, String inDoors) {
         this.opponentTeam = opponentTeam;
@@ -34,7 +36,20 @@ public class MatchDTO {
             this.inDoors = m.getInDoors();
             this.type = m.getType();
             this.playerDTOS = PlayerDTO.getDtos(m.getPlayers());
+            this.location = m.getLocation();
         }
+    }
+
+    public String getInDoors() {
+        return inDoors;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public int getId() {
@@ -90,12 +105,12 @@ public class MatchDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MatchDTO matchDTO = (MatchDTO) o;
-        return id == matchDTO.id && inDoors == matchDTO.inDoors && opponentTeam.equals(matchDTO.opponentTeam) && judge.equals(matchDTO.judge) && type.equals(matchDTO.type) && Objects.equals(playerDTOS, matchDTO.playerDTOS);
+        return id == matchDTO.id && opponentTeam.equals(matchDTO.opponentTeam) && judge.equals(matchDTO.judge) && type.equals(matchDTO.type) && inDoors.equals(matchDTO.inDoors) && playerDTOS.equals(matchDTO.playerDTOS) && location.equals(matchDTO.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, opponentTeam, judge, type, inDoors, playerDTOS);
+        return Objects.hash(id, opponentTeam, judge, type, inDoors, playerDTOS, location);
     }
 
     @Override
@@ -105,8 +120,9 @@ public class MatchDTO {
                 ", opponentTeam='" + opponentTeam + '\'' +
                 ", judge='" + judge + '\'' +
                 ", type='" + type + '\'' +
-                ", inDoors=" + inDoors +
+                ", inDoors='" + inDoors + '\'' +
                 ", playerDTOS=" + playerDTOS +
+                ", location=" + location +
                 '}';
     }
 }
